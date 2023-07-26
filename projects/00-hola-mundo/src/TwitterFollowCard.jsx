@@ -8,11 +8,24 @@
 // }
 
 // export function TwitterFollowCard ({formatUserName, userName, name, number}) {
+
+import { useState } from "react";
+
 export function TwitterFollowCard (prop) {
-    const {formatUserName, userName, name, number, children} = prop
+    const [isFollowing, setIsFollowing] = useState(false)
+
+
+    const {formatUserName, userName='unknown', name, number, children} = prop
     console.log('prop::: ', prop);
     const addAt = (userName) => `@${userName}`
+    const buttonClassName = isFollowing ? 'tw-followCard-button is-following' : 'tw-followCard-button'
     //las props deben ser inmutables
+
+    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+
+    const handleClick = () => {
+        setIsFollowing(!isFollowing)
+    }
     
     return(
         <article className='tw-followCard'>
@@ -31,8 +44,8 @@ export function TwitterFollowCard (prop) {
             </header>
 
             <aside>
-                <button className='tw-followCard-button'>
-                    Seguir
+                <button className={buttonClassName} onClick={handleClick}>
+                    {text}
                 </button>
             </aside>
         </article>
