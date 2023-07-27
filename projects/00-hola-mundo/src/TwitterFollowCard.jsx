@@ -12,10 +12,10 @@
 import { useState } from "react";
 
 export function TwitterFollowCard (prop) {
-    const [isFollowing, setIsFollowing] = useState(false)
-
-
-    const {formatUserName, userName='unknown', name, number, children} = prop
+    
+    
+    const {formatUserName, userName='unknown', name, number, children, initialIsFollowing} = prop
+    const [isFollowing, setIsFollowing] = useState(initialIsFollowing)
     console.log('prop::: ', prop);
     const addAt = (userName) => `@${userName}`
     const buttonClassName = isFollowing ? 'tw-followCard-button is-following' : 'tw-followCard-button'
@@ -45,7 +45,13 @@ export function TwitterFollowCard (prop) {
 
             <aside>
                 <button className={buttonClassName} onClick={handleClick}>
+                    <span className="tw-followCard-text">
                     {text}
+                        </span>
+
+                    <span className="tw-followCard-stopFollow">
+                        Dejar de seguir
+                    </span>
                 </button>
             </aside>
         </article>

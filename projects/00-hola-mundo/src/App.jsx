@@ -5,30 +5,75 @@ import { TwitterFollowCard } from "./TwitterFollowCard";
 export function App() {
   const formatUserName = (userName) => `@${userName}`;
   const info = {
-  formatUserName: formatUserName,
-  userName:"Juan",
-  name:"Juan Garcia",
-  number:"75"}
+    formatUserName: formatUserName,
+    userName: "Juan",
+    name: "Juan Garcia",
+    number: "75",
+  };
 
-  const [name, setName] = useState('joseph') 
+  const [name, setName] = useState("joseph");
 
   const changeName = () => {
-    setName('Juan paco pedro')
-  }
+    setName("Juan paco pedro");
+  };
+
+  const users = [
+    {
+      formatUserName: formatUserName,
+      userName: "Juan",
+      name: "louis",
+      number: "1",
+    },
+    {
+      formatUserName: formatUserName,
+      userName: "Juan2",
+      name: "louis",
+      number: "2",
+    },
+    {
+      formatUserName: formatUserName,
+      userName: "Juan3",
+      name: "louis",
+      number: "3",
+    },
+    {
+      formatUserName: formatUserName,
+      userName: "Juan4",
+      name: "louis",
+      number: "4",
+    },
+  ];
 
   return (
     <section className="">
-      <TwitterFollowCard
+      
+      {
+      users.map(user => {
+        const {formatUserName, userName, name, number} = user
+        return(
+          <TwitterFollowCard
+            key = {userName}
+            formatUserName = {formatUserName}
+            userName = {userName}
+            name = {name}
+            number = {number}
+          />
+         )
+      })
+      }
+
+      {/* <TwitterFollowCard
         formatUserName={formatUserName}
         userName="Juan"
         name={name}
         number={"75"}
+        initialIsFollowing={true}
       >
         El children
       </TwitterFollowCard>
       {/* Objeto como prop */}
       {/* Esta es una manera de pasar cada uno de los items como propiedades aparte */}
-      <TwitterFollowCard {...info}/> 
+      {/* <TwitterFollowCard {...info} />  */}
       {/* <TwitterFollowCard
         formatUserName={formatUserName}
         isFollowing={true}
@@ -58,9 +103,7 @@ export function App() {
         number={"3"}
       /> */}
 
-      <button onClick={changeName}>
-        Cambnio Nombre
-      </button>
+      <button onClick={changeName}>Cambnio Nombre</button>
     </section>
   );
 }
