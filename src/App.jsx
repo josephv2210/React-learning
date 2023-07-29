@@ -42,12 +42,6 @@ export function App() {
       name: "louis",
       number: "4",
     },
-    {
-      formatUserName: formatUserName,
-      userName: "Juan5",
-      name: "louis",
-      number: "6",
-    },
   ];
 
   return (
