@@ -3,6 +3,8 @@
 // import TodoList from "./components/TodoList";
 // import CreateTodoButton from "./components/CreateTodoButton";
 // import TodoItem from "./components/TodoItem";
+import TodoAnalytics from "./components/TodoAnalytics/TodoAnalytics";
+import TodoGraph from "./components/TodoGraph/TodoGraph";
 import TodoSelectCategory from "./components/TodoSelectCategory/TodoSelectCategory";
 
 // const defaultTodos = [
@@ -38,13 +40,12 @@ function App() {
         <section className="w-1/3 pe-12 flex flex-col justify-between items-center ">
           <TodoSelectCategory/>
 
-          <div>
-            grafica
-          </div>
+          <TodoGraph
+                progress = {50}
+          />
           
-          <div>
-            listado de tareas
-          </div>
+          
+          <TodoAnalytics/>
 
         </section>
         <section className="w-2/3 ps-12 ">
