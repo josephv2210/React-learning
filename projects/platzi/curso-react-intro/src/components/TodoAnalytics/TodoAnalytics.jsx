@@ -5,9 +5,18 @@ function TodoAnalytics() {
     return (
         <>
             <div className='flex justify-center items-center flex-col w-full gap-6'>
-                <TodoAnalyticsItem />
-                <TodoAnalyticsItem />
-                <TodoAnalyticsItem />
+                <TodoAnalyticsItem
+                    label={'Total de TODOs'}
+                    value={300}
+                />
+                <TodoAnalyticsItem
+                    label={'TODOs realizados'}
+                    value={150}
+                />
+                <TodoAnalyticsItem
+                    label={'TODOs por hacer'}
+                    value={150}
+                />
             </div>
         </>
     )

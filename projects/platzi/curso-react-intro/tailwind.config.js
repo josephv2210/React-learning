@@ -11,6 +11,8 @@ module.exports = {
         'white-green': '#EDF6F9',
         'light-orange': '#FFDDD2',
         'dark-orange': '#E29578',
+        'gray': '#D9D9D9',
+        'dark': '#002427',
       },
       borderRadius:{
         '15':'15px',

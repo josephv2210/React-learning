@@ -4,7 +4,7 @@ function TodoList(props) {
 
     const {children} = props;
   return (
-        <ul>
+        <ul className='w-full flex flex-col items-center'>
             {children}
         </ul>
   )
