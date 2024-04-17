@@ -13,14 +13,14 @@ function App() {
   });
   console.log("board::: ", board);
 
-  const [turn, setTurn] = useState( () => {
+  const [turn, setTurn] = useState(() => {
     const turnFormStorage = window.localStorage.getItem('turn')
     return turnFormStorage ?? TURNS.X
   });
   // null es que no hay ganador, false es que hay empate y true es que hay ganador
   const [winner, setWinner] = useState(null)
 
-  
+
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))
@@ -42,7 +42,7 @@ function App() {
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
-    
+
     // cambiar el turno 
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
@@ -53,18 +53,22 @@ function App() {
 
     //revisar ganador
     const newWinner = checkWinner(newBoard)
-    if (newWinner){
+    if (newWinner) {
       confetti()
       setWinner(newWinner)
       // alert(`El ganador es ${newWinner}`)
-    }else if(checkEndGame(newBoard)){
+    } else if (checkEndGame(newBoard)) {
       setWinner(false)
     }
   };
 
   useEffect(() => {
     console.log('useEffect')
-  })
+    // })// Cada que se renderiza
+    // }, [])// Solo una vez
+    // }, [turn])// Cada que que cambia el turno o se actualice turn
+  }, [turn])// Cada que que cambia el turno o se actualice turn
+
 
   return (
     <main className="board">
@@ -85,7 +89,7 @@ function App() {
         <Square isSelected={turn === TURNS.O}>{TURNS.O}</Square>
       </section>
 
-      <WinnerModal resetGame={resetGame} winner={winner}/>
+      <WinnerModal resetGame={resetGame} winner={winner} />
     </main>
   );
 }
