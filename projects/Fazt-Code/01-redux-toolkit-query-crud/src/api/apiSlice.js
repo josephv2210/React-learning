@@ -12,7 +12,7 @@ export const apiSlice = createApi({
     getTasks: builder.query({
       query: () => "/tasks", //subruta
       providesTags: ["Tasks"], //le damos el nombre de Tasks
-      transformResponse: response => response.sort((a,b) => b.id - a.id) //ordenar por id
+      transformResponse: (response) => response.sort((a, b) => b.id - a.id), //ordenar por id
     }),
     createTask: builder.mutation({
       query: (newTask) => ({
@@ -20,9 +20,30 @@ export const apiSlice = createApi({
         method: "POST",
         body: newTask,
       }),
-      invalidatesTags: ["Tasks"] //lo que hace es que tenga que volver a ejecutar Tasks
+      invalidatesTags: ["Tasks"], //lo que hace es que tenga que volver a ejecutar Tasks
+    }),
+    updateTask: builder.mutation({
+      query: (updatedTask) => ({
+        url: `/tasks/${updatedTask.id}`,
+        method: "PATCH",
+        body: updatedTask,
+      }),
+      invalidatesTags: ["Tasks"],
+
+    }),
+    deleteTask: builder.mutation({
+      query: (id) => ({
+        url: `/tasks/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Tasks"],
     }),
   }),
 });
 
-export const { useGetTasksQuery, useCreateTaskMutation } = apiSlice;
+export const {
+  useGetTasksQuery,
+  useCreateTaskMutation,
+  useDeleteTaskMutation,
+  useUpdateTaskMutation,
+} = apiSlice;
