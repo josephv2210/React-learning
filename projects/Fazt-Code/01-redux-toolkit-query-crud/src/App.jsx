@@ -1,8 +1,13 @@
+import TaskForm from './components/TaskForm'
 import TasksList from './components/TasksList'
 
 function App() {
-  return(
-    <TasksList/>
+  return (
+    <>
+      <TaskForm />
+      <TasksList />
+
+    </>
   )
 }
 

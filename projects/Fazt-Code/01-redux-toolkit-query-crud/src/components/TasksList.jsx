@@ -15,7 +15,6 @@ function TasksList() {
 
     return (
         <ul>
-            <p>hola</p>
             {tasks.map((task) => (
                 <li key={task.id}>
                     <h3>{task.name}</h3>

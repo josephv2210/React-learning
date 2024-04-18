@@ -10,9 +10,19 @@ export const apiSlice = createApi({
     //get -> trae datos
     //put, post, delete -> mutan datos
     getTasks: builder.query({
-      query: () => "/task", //subruta
+      query: () => "/tasks", //subruta
+      providesTags: ["Tasks"], //le damos el nombre de Tasks
+      transformResponse: response => response.sort((a,b) => b.id - a.id) //ordenar por id
+    }),
+    createTask: builder.mutation({
+      query: (newTask) => ({
+        url: "/tasks",
+        method: "POST",
+        body: newTask,
+      }),
+      invalidatesTags: ["Tasks"] //lo que hace es que tenga que volver a ejecutar Tasks
     }),
   }),
 });
 
-export const { useGetTasksQuery } = apiSlice;
+export const { useGetTasksQuery, useCreateTaskMutation } = apiSlice;
