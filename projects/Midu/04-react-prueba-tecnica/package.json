@@ -1,0 +1,32 @@
+{
+  "name": "04-react-prueba-tecnica",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "fomat": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.1.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.34.1",
+    "globals": "^15.0.0",
+    "prettier": "^3.2.5",
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "4.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}
