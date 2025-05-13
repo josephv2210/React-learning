@@ -1,24 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import "./App.css";
-import { Button } from "./components";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const countMore = () => {
-    setCount(count + 1);
+  const consoleLoader = (loadingValue: boolean) => {
+    setLoading(loadingValue);
+    console.info(loading);
   };
 
-  // Componente inteligente, que tiene estado y logica
+  const fechData = async () => {
+    setLoading(true);
+    consoleLoader(true);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos");
+      }
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      setError(error as string);
+    } finally {
+      //se ejecuta sin importar como termina
+      consoleLoader(false);
+    }
+  };
 
-  return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button label={`count is ${count}`} parentMethod={countMore} />
-      </div>
-    </>
-  );
+  useEffect(() => {
+    fechData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return <div>{JSON.stringify(data)}</div>;
 }
 
 export default App;

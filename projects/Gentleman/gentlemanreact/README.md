@@ -13,6 +13,8 @@ Este documento resume conocimientos fundamentales de React, Vite, arquitectura S
 - [Render y Re-render en React](#render-y-re-render-en-react)
 - [Componentes en React](#componentes-en-react)
 - [Estado con useState](#estado-con-usestate)
+- [Estado con useEffect](#estado-con-useeffect)
+- [Estado con UseCallback](#estado-con-usecallback)
 
 ---
 
@@ -92,18 +94,17 @@ El bundle pasa por tres etapas importantes:
 
 Estructura típica:
 
-*código*jsx
+```jsx
 /private
-  └─ dashboard
+└─ dashboard
 /public
-  ├─ login
-  └─ register
-*código*
+├─ login
+└─ register
+```
 
 - Rutas públicas son accesibles sin login.
 - Rutas privadas solo se cargan si el usuario está autenticado.
-- Gracias a *lazy loading*, solo se bundlea lo necesario para cada sesión.
-
+- Gracias a _lazy loading_, solo se bundlea lo necesario para cada sesión.
 
 ## ⚙️ ¿Qué significa _build_?
 
@@ -551,3 +552,190 @@ const handleClick = () => {
 > Porque el cambio de estado es asincrónico y el nuevo valor aún no ha sido aplicado
 
 </details>
+
+<details>
+  <summary id="estado-con-useeffect">🛠️ Estado con UseEffect</summary>
+
+## Hook
+
+que es un hook un hook es un gancho que engancha algo del estado, que se puede identificar por que tiene _use_ al inicio
+
+existen dos tipos
+
+- Propios de react: como lo son UseEffect, UseState, etc
+- Custom Hooks: que son los que creamos nosotros
+
+---
+
+## useEffect
+
+Esta es su estructura basica
+
+```jsx
+useEffect(() => {}, []);
+```
+
+Es un metodo que acepta otro metodo y tambien acepta un array de dependencias
+
+Acepta una logica, pero cuando se ejecuta esta logica?
+
+esto se va a ejecutar en uno o varios momentos especificos
+
+1. Cuando se monta el componente
+2. Cuando se modifique uno de los valores del state
+
+   - Pero cuando? cuando se modifique cualquier valor? no, solo cuando se modifiquen los que estan dentro del array de dependencias, por eso es que depende
+
+   - por ejemplo si quiero que se ejecute cuando data cambie se debe ver asi
+
+   ```jsx
+   useEffect(() => {}, [data]);
+   ```
+
+   > tener en cuenta que si se deja vacio va a ejecutarse cuando cualquier valor del estado cambie
+
+Que significa poner un return?
+
+que se va a ejecutar cuando el componente se destruya
+
+```jsx
+useEffect(() => {
+  return () => {};
+}, [data]);
+```
+
+pero para que sirve esto? sirve para manejar el estado de la memoria, si tenemos un subscribe o algo asincrono, podemos manejar y liberar esa memoria
+
+> Este es un uso incorrecto del useEffect como manejador de siclos de vida
+
+## Verdadero uso
+
+- Se usa para comunicarnos con un endpoint - una entidad externa al componente
+- Operaciones asyncronas
+- Parametros de entrada
+- context
+
+en donde podemos hacer algo asi
+
+```jsx
+import { useState, useEffect } from "react";
+import "./App.css";
+
+function App() {
+  const [data, setData] = useState([]);
+
+  const fechData = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fechData();
+  }, []);
+
+  return <div>{JSON.stringify(data)}</div>;
+}
+
+export default App;
+```
+
+## Mal uso
+
+Si yo tengo esto dentro de mi codigo
+
+```jsx
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  console.info(loading);
+}, [loading]);
+```
+
+Esta mal usado, por que el useEffect tiene que usarse para cosas externas, y existe una manera de hacerlo aun teniendo rerenderings
+y la solución es crear un metodo, y en donde este cambiando el parametro llamarlo, algo asi
+
+```jsx
+import { useState, useEffect } from "react";
+import "./App.css";
+
+function App() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const consoleLoader = (loadingValue: boolean) => {
+    setLoading(loadingValue);
+    console.info(loading);
+  };
+
+  const fechData = async () => {
+    setLoading(true);
+    consoleLoader(true);
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos");
+      }
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      setError(error as string);
+    } finally {
+      //se ejecuta sin importar como termina
+      consoleLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    fechData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return <div>{JSON.stringify(data)}</div>;
+}
+
+export default App;
+
+```
+
+## Diferencia de objetos
+
+si tengo esto
+
+```jsx
+const a = {
+  name: "Alan",
+};
+const b = {
+  name: "Alan",
+};
+
+console.log("Es igual?::: ", a === b);
+//false
+```
+
+Esto por que es difenente el espacio de memoria, es decir
+
+se crea una referencia (a) a un espacio de memoria '>='el cual tiene un objeto name: Alan
+se crea una referencia (b) a un espacio de memoria '>='el cual tiene un objeto name: Alan
+
+por lo que cada uno es un espacio de memoria diferente
+
+</details>
+
