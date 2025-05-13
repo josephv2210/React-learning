@@ -15,6 +15,7 @@ Este documento resume conocimientos fundamentales de React, Vite, arquitectura S
 - [Estado con useState](#estado-con-usestate)
 - [Estado con useEffect](#estado-con-useeffect)
 - [Estado con UseCallback](#estado-con-usecallback)
+- [Estado con CustomHook](#estado-con-customHook)
 
 ---
 
@@ -739,3 +740,104 @@ por lo que cada uno es un espacio de memoria diferente
 
 </details>
 
+<details>
+  <summary id="estado-con-customHook">🛠️ Custom Hooks</summary>
+
+creamos una carpeta dentro
+
+    -src
+      -hooks
+
+y ahi creamos un archivo **useFetch.ts** tener en cuenta que al ser un hook es buena practica que empiece por use
+
+siempre se le crea una interface
+
+hay algo llamados genericos dentro de typescript, lo que nos permite pasarle un tipo que podamos usar adentro (explicalo un poco mas)
+
+´´´ts
+interface Params<T> {
+data: T | null;
+}
+´´´
+
+es decir que si alguien usa Params<Users> se le dice que vas a pasar por parametro algo que devuelve un user
+
+donde despues se pude llamar asi
+useFetch<User>()
+
+en este caso estoy declarando lo siguiente 
+
+´´´ts
+type Data<T> = T | null;
+type ErrorType<T> = Error | null;
+
+interface Params<T> {
+    data: T | null;
+    loading: boolean;
+    error: Error | null;
+}
+´´´
+
+Por que lo declaro dentro del hook y no fuera de este??
+por que eso solo lo va a usar este hook
+
+## Interruptores
+
+Hay algo que se llaman interruptores, los cuales cumplen la funcion de que si estamos en una petición y falla o algo la petición sigue ahi, lo que vamos a hacer es desuscribirnos
+(Confirma por favor, corrige y da un ejemplo)
+
+importante para dejar la memoria limpia lo que hacemos es lo siguiente 
+
+```ts
+import { useState, useEffect } from 'react';
+
+type Data<T> = T | null;
+type ErrorType = Error | null;
+
+interface Params<T> {
+    data: Data<T>;
+    loading: boolean;
+    error: ErrorType;
+}
+
+export const useFetch = <T>(url: string): Params<T> => {
+    const [data, setData] = useState<Data<T>>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<ErrorType>(null);
+
+    useEffect(() => {
+        let controller = new AbortController();
+
+        setLoading(true);
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch(url, controller);
+                if (!response.ok) {
+                    throw new Error('Error al obtener los datos');
+                }
+                const json: T = await response.json();
+                setData(json);
+                setError(null);
+            } catch (err) {
+                setError(err as Error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+
+        return () => {
+            controller.abort();
+        }; 
+    }, [url]);
+
+    return { data, loading, error };
+}
+
+```
+
+(Explica cada parte del codigo)
+
+</details>
