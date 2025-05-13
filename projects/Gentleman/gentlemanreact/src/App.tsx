@@ -1,7 +1,8 @@
 import { useFetch } from "./hooks";
 import "./App.css";
 
-const url = "https://jsonplaceholder.typicode.com/posts";
+const url = "https://api.example.com/data";
+const userUrl = "https://api.example.com/user";
 
 interface Data {
   name: string;
@@ -11,6 +12,7 @@ interface Data {
 
 function App() {
   const {data, error, loading} = useFetch<Data>(url);
+  // const {data: dataUser, error: errorUser, loading: loadingUsr} = useFetch<{name: string}>(userUrl);
 
   
 
