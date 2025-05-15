@@ -3,8 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type FormValues, schema } from "./models/";
 import InputForm from "./components/CustomInput";
 
-
-
 const CustomForm = () => {
   const {
     control,
@@ -13,6 +11,12 @@ const CustomForm = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: "onBlur",
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
