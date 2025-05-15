@@ -1,54 +1,84 @@
-# React + TypeScript + Vite
+# 🧾 Formulario Validado con React Hook Form + Zod
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es un formulario de registro simple construido con **React**, utilizando **React Hook Form** y **Zod** para validación de datos. Incluye validación de campos como nombre, correo electrónico, contraseña y confirmación de contraseña.
 
-Currently, two official plugins are available:
+Este repo ha sido en base a https://github.com/Gentleman-Programming/Gentleman-React-Form
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📦 Tecnologías usadas
 
-## Expanding the ESLint configuration
+* [React](https://reactjs.org/)
+* [React Hook Form](https://react-hook-form.com/)
+* [Zod](https://zod.dev/)
+* [@hookform/resolvers](https://react-hook-form.com/get-started/#SchemaValidation)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Instalación
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/tu-usuario/nombre-del-repo.git
+cd nombre-del-repo
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instala las dependencias:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Inicia la app:
+
+```bash
+npm run dev
+# o
+npm start
+```
+
+## 📂 Estructura del proyecto
+
+```
+src/
+│
+├── App.tsx                  # Renderiza el componente principal
+├── components/
+│   ├── CustomForm/          
+│   │   └── CustomForm.tsx   # Formulario con validación
+│   └── CustomInput.tsx      # Input controlado con validación
+├── models/
+│   └── index.ts             # Schema de Zod y tipo FormValues
+├── App.css                  # Estilos generales
+└── components/CustomInput.css # Estilos de los inputs
+```
+
+## 🧪 Validaciones del formulario
+
+* **Nombre**: Campo obligatorio
+* **Email**: Debe ser un correo válido y obligatorio
+* **Contraseña**: Mínimo 6 caracteres
+* **Confirmar contraseña**: Debe coincidir con la contraseña
+
+Si algún campo no es válido, se mostrará un mensaje de error personalizado debajo del campo correspondiente.
+
+## 📸 Vista previa
+
+```tsx
+<CustomForm />
+```
+
+Renderiza el formulario con inputs personalizados y validación automática al enviar.
+
+## 📤 Envío del formulario
+
+Al hacer `submit`, los datos válidos se mostrarán en consola:
+
+```ts
+const onSubmit: SubmitHandler<FormValues> = (data) => {
+  console.log(data);
+};
+```
+
+## ✅ Próximas mejoras (opcional)
+
+* Integración con backend
+* Estilos más avanzados con Tailwind o Bootstrap
+* Tests unitarios
