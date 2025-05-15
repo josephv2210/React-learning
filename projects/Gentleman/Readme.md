@@ -1054,6 +1054,8 @@ hookform/resolvers es el que hace la coneccion entre react-hook-form con zod
 
 zod es para crear schemas
 
+para acceder a todo lo que se hizo ve a
 
+[Custom Form](./reactForm/)
 
 </details>
