@@ -1,30 +1,31 @@
-import { useFetch } from "./hooks";
 import "./App.css";
-
-const url = "https://api.example.com/data";
-const userUrl = "https://api.example.com/user";
-
-interface Data {
-  name: string;
-  lastName: string;
-  age: number;
-}
+import { Button, ColorRed, AppForm } from "./components/";
 
 function App() {
-  const {data, error, loading} = useFetch<Data>(url);
-  // const {data: dataUser, error: errorUser, loading: loadingUsr} = useFetch<{name: string}>(userUrl);
-
-  
-
-  if (loading) {
-    return <div>Loading...</div>;
+  const submit = () => {
+    console.log("submit");
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const handleClick = () => {
+    console.log("Button clicked");
+  };
 
-  return <div>{JSON.stringify(data)}</div>;
+  const dimeHola = () => {
+    alert("Hola");
+  };
+
+  return (
+    <>
+      <ColorRed>
+        <Button parentMethod={dimeHola}>My label</Button>
+      </ColorRed>
+      <Button parentMethod={handleClick}>Boton normal</Button>
+
+      <AppForm>
+        <button type="submit" onClick={submit}>Submit</button>
+      </AppForm>
+    </>
+  );
 }
 
 export default App;

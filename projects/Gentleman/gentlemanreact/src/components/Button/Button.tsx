@@ -1,20 +1,29 @@
+import { ReactNode } from "react";
 import "./Button.css";
 
 interface Props {
-    label:string,
-    parentMethod: () => void,
+  children: ReactNode,
+  parentMethod: () => void
 }
 
-export const Button = ({label, parentMethod}: Props) => {
+interface ChildrenProps {
+  children: ReactNode
+}
 
-//Componente tonto, que no tiene estado, no tiene logica
+export const ColorRed = ({children}: ChildrenProps) => {
+  return (
+    <div className="color-red">
+      {children}
+    </div>
+  );
+};
+
+export const Button = ({ children, parentMethod }: Props) => {
+  //Componente tonto, que no tiene estado, no tiene logica
 
   return (
-    <button
-      className="custom-buttom"
-      onClick={parentMethod}
-    >
-        {label}
+    <button className="custom-buttom" onClick={parentMethod}>
+      {children}
     </button>
   );
 };

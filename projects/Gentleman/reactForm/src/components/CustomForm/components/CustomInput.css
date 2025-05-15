@@ -1,0 +1,31 @@
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.error{
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25em;
+    max-width: 200px;
+}
+
+.form-group{
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label{
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input{
+    max-width: 200px;
+}
+
+.form-control{
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}

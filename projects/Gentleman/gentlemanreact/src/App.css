@@ -1,4 +1,8 @@
 .custom-buttom {
-  color: blue;
+  color: inherit;
   background-color: gray;
+}
+
+.color-red{
+  color: red;
 }
