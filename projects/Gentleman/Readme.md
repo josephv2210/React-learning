@@ -18,6 +18,7 @@ Este documento resume conocimientos fundamentales de React, Vite, arquitectura S
 - [Estado con CustomHook](#estado-con-customHook)
 - [Composition pattern](#composition-pattern)
 - [Formularios en React con ZOD](#formularios-zod)
+- [Estados en react con Context](#estado-con-context)
 
 ---
 
@@ -235,7 +236,7 @@ export function sumar(a, b) {
 
 // archivo main.js
 import { sumar } from './math.js';
-console.log(sumar(2, 3)); // 5
+// console.log(sumar(2, 3)); // 5
 
 Import/export se usa solo en ESM, no en CommonJS
 ```
@@ -593,14 +594,14 @@ setFlag((f) => !f);
 
 ---
 
-## 🔍 Ejemplo con `console.log`
+## 🔍 Ejemplo con `// console.log`
 
 ```tsx
 const [count, setCount] = useState(0);
 
 const handleClick = () => {
   setCount(count + 1);
-  console.log(count); // muestra el valor actual, no el nuevo
+  // console.log(count); // muestra el valor actual, no el nuevo
 };
 ```
 
@@ -687,7 +688,7 @@ function App() {
       const json = await response.json();
       setData(json);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
     }
   };
 
@@ -709,7 +710,7 @@ Si yo tengo esto dentro de mi codigo
 const [loading, setLoading] = useState(true);
 
 useEffect(() => {
-  console.info(loading);
+  // console.info(loading);
 }, [loading]);
 ```
 
@@ -725,14 +726,14 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const consoleLoader = (loadingValue: boolean) => {
+  const // consoleLoader = (loadingValue: boolean) => {
     setLoading(loadingValue);
-    console.info(loading);
+    // console.info(loading);
   };
 
   const fechData = async () => {
     setLoading(true);
-    consoleLoader(true);
+    // consoleLoader(true);
     try {
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/posts"
@@ -746,7 +747,7 @@ function App() {
       setError(error as string);
     } finally {
       //se ejecuta sin importar como termina
-      consoleLoader(false);
+      // consoleLoader(false);
     }
   };
 
@@ -781,7 +782,7 @@ const b = {
   name: "Alan",
 };
 
-console.log("Es igual?::: ", a === b);
+// console.log("Es igual?::: ", a === b);
 //false
 ```
 
@@ -976,7 +977,7 @@ export const useFetch = <T>(url: string): Params<T> => {
 
   function App() {
     const handleClick = () => {
-      console.log("Button clicked");
+      // console.log("Button clicked");
     };
 
     return (
@@ -1057,5 +1058,86 @@ zod es para crear schemas
 para acceder a todo lo que se hizo ve a
 
 [Custom Form](./reactForm/)
+
+</details>
+
+<details>
+    <summary id="estado-con-context">
+    Estados en react con Context
+    </summary>
+
+## Context
+De todas las maneras que existen para compartir información hay una muy comun llamada context
+
+lo bueno e interezante que tiene, es la facilidad y capacidad que tiene de manera nativa de compartir la información 
+
+vamos a compartir información del padre al hijo del hijo del hijo 
+
+el contexto es una via de comunicación donde entra por un lado y sale por otro
+
+## programación reactiva 
+es como si tuvieras un tubo por el cual envias un objeto, el tubo tiene varios huecos, donde las personas pueden ir viendo
+en donde cada persona describe o ve el objeto de maneras distintas
+
+por lo que podemos decir que
+es un canal de comunicación en donde hay personas subscritas a un canal en donde cada vez que hay un evento reaccionan de manera diferente
+
+tiene que funcionar dentro de un provider
+
+```tsx
+    import { createContext, useState } from "react";
+    import "./App.css";
+    import { Button, ColorRed, AppForm } from "./components/";
+
+    export const GentlemanContext = createContext({});
+
+    function App() {
+    const [gentlemanContextValue, setGentlemanContextValue] = useState(false);
+
+    const submit = () => {
+        // console.log("submit");
+    };
+
+    const handleClick = () => {
+        // console.log("Button clicked");
+    };
+
+    const dimeHola = () => {
+        alert("Hola");
+    };
+
+    return (
+        <GentlemanContext.Provider
+        value={{ gentlemanContextValue, setGentlemanContextValue }}
+        >
+        <ColorRed>
+            <Button parentMethod={dimeHola}>My label</Button>
+        </ColorRed>
+        <Button parentMethod={handleClick}>Boton normal</Button>
+
+        <AppForm>
+            <button type="submit" onClick={submit}>
+            Submit
+            </button>
+        </AppForm>
+        </GentlemanContext.Provider>
+    );
+    }
+
+    export default App;
+
+```
+
+en donde ahora cualquier componente dentro del provider puede acceder a estos valores
+
+## Mejor solución
+
+esto funciona pero tiene varios problemas, 1 es logica del app? no, entonces por que esta ahi?
+
+lo segundo este no se puede utilizar dentro de APP, por que este solo se puede usar dentro de lo que lo encapsule, y a APP no lo esta encapsulando
+
+y tambien no se puede controlar la existencia
+
+
 
 </details>

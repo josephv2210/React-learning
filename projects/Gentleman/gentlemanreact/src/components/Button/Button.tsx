@@ -1,28 +1,36 @@
 import { ReactNode } from "react";
 import "./Button.css";
+import { useGlobalContext } from "../../context/global.context";
 
 interface Props {
-  children: ReactNode,
-  parentMethod: () => void
+  children: ReactNode;
+  parentMethod: () => void;
 }
 
 interface ChildrenProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
-export const ColorRed = ({children}: ChildrenProps) => {
+export const ColorRed = ({ children }: ChildrenProps) => {
+  const { value } = useGlobalContext();
   return (
     <div className="color-red">
-      {children}
+      {value}:{children}
     </div>
   );
 };
 
 export const Button = ({ children, parentMethod }: Props) => {
   //Componente tonto, que no tiene estado, no tiene logica
+  const {setValue} = useGlobalContext();
+
+  const handleClick = () => {
+    setValue(10);
+    parentMethod();
+  };
 
   return (
-    <button className="custom-buttom" onClick={parentMethod}>
+    <button className="custom-buttom" onClick={handleClick}>
       {children}
     </button>
   );
