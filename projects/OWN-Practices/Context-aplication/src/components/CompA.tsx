@@ -1,12 +1,16 @@
 
+import { useGlobalContext } from '../context/global.context';
 import CompB from './CompB';
 
-function compA() {
+const compA = () => {
   // const data = {
   //   name: 'Juan',
   //   age: 22,
   //   location: 'Madrid',
   // }
+
+  const { value } = useGlobalContext();
+  console.log('value::: ', value)
 
   return (
     <div>

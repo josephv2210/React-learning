@@ -1,4 +1,4 @@
-import { createContext, useState, type SetStateAction, type Dispatch } from "react";
+import { createContext, useState } from "react";
 
 
 interface DataContextProviderProps {
@@ -13,7 +13,7 @@ interface ContextData {
 
 interface ContextValue {
     contextData: ContextData;
-    setContextData: Dispatch<SetStateAction<ContextData>>;
+    setContextData: React.Dispatch<React.SetStateAction<ContextData>>;
 }
 
 export const DataContext = createContext<ContextValue | null>(null);
